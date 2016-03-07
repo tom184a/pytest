@@ -75,12 +75,13 @@ class TestSuite:
             code() # Testing ...
             print '...........................................'
             if result.getResult() == True:
-                print '[OK]:', desc
+                print '\033[32m[OK]:\033[0m', desc
             else:
-                print '[FAIL]:', desc
+                print '\033[31m[FAIL]:', desc
                 print 'details'
                 for x in result.getFailedAsserts():
                     print x.getInfo()
+                print '\033[0m'
 
 
         #------------------------------------------------
@@ -96,8 +97,31 @@ class TestSuite:
 
 
 
+
+
+####################### Tests of tests :P ####################################
+
+def test1():
+    x = 1
+    y = 1
+    ASSERT_EQ(x, y, "X not equals Y")
+
+def test2():
+    for x in range(3):
+        for y in range(3):
+            ASSERT_EQ(x, y, 'x=%d not equals y=%d' % (x,y))
+
+def test3():
+    ASSERT_FALSE(False, 'should pass')
+    ASSERT_TRUE(True, 'should pass')
+    ASSERT_EQ(1,1, 'should pass')
+
 def main():
-    pass
+    suite = TestSuite()
+    suite.addTest("This is first test", test1)
+    suite.addTest("This is second test", test2)
+    suite.addTest("This is 3rd test", test3)
+    suite.run()
 
 if __name__ == '__main__':
     main()
